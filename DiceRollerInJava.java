@@ -1,5 +1,11 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;;
  
 // dice roller java source code
 // Also outputs the dice face as ASCII art
@@ -18,6 +24,7 @@ public class DiceRollerInJava {
         Scanner scanner = new Scanner(System.in);
         DiceRollerInJava dice = new DiceRollerInJava();
         int count = 0;
+        int TotalCount = 0;
 
         // while (true) {
         //     int result = dice.roll();
@@ -36,6 +43,9 @@ public class DiceRollerInJava {
 
         // change new logic that only receive the command if the command is roll or quit if other command is type there will be no result
 
+      
+       
+
         while(true){
             System.out.println("What do you want to do ? (type roll to play) (type quit or exit to end the game) ");
             String input = scanner.nextLine();
@@ -44,16 +54,43 @@ public class DiceRollerInJava {
                 System.out.println("dice face value: " + result);
                 dice.draw(result);
                 count++;
+                TotalCount += result;
                 System.out.println("The dice has rolled " + count + " times");
+                System.out.println("The total Count so far is:" + TotalCount);
+                
+                //This try and catch method will grab the value of Total Count and then print it to the designated file
+                try 
+                {
+            
+                    PrintWriter Writer = new PrintWriter("S:/Uni/Development Project 1/DiceRoller Iteration 1/TotalCount.txt");
+                    Writer.print(TotalCount);
+                    Writer.close();
+                   
+                }
+                
+                catch (IOException e) 
+                {
+                    e.printStackTrace();
+                }
+              
                 continue;
-            } else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")){
+
+            }
+             else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")){
                 System.out.println("Bye! see you next time");
                 scanner.close();
                 return;
-            } else{
+                
+            } 
+            else{
+                
                 clearScreen();
             }
+            
         }
+
+
+        
     }
  
     // Draw the dice face using ascii characters
@@ -82,8 +119,12 @@ public class DiceRollerInJava {
         return r.nextInt(6) + 1;
     }
 
+
     public static void clearScreen() {  
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
        }
+
+
+     
 }

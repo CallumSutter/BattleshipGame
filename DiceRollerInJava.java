@@ -40,10 +40,31 @@ public class DiceRollerInJava {
             System.out.println("What do you want to do ? (type roll to play) (type quit or exit to end the game) ");
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("roll")){
+                System.out.println();
+
+                //Gets type of dice to be rolled from user
+                System.out.println("What type of dice would you like to roll? Terahedral/Regular?");
+                System.out.println("Please insert T or R.");
+                String selection = scanner.nextLine();
+
+                //Rolls tetrahedral (4-sided triangular) dice
+                if(selection.equalsIgnoreCase("T") || selection.equalsIgnoreCase("t"))
+                {
+                    System.out.println("You have selected Tetrahedral!");
+                    int resultTetra = dice.rollTetra();
+                    System.out.println("dice face value: " + resultTetra);
+                    dice.drawTetra(resultTetra);
+                    count++;
+                }
+                //Rolls regular (6-sided square) dice
+                else if(selection.equalsIgnoreCase("R") || selection.equalsIgnoreCase("r"))
+                {
                 int result = dice.roll();
-                System.out.println("dice face value: " + result);
+                System.out.println("dice face value:" + result);
                 dice.draw(result);
                 count++;
+                }
+
                 System.out.println("The dice has rolled " + count + " times");
                 continue;
             } else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")){
@@ -80,6 +101,22 @@ public class DiceRollerInJava {
     private int roll() {
         Random r = new Random();
         return r.nextInt(6) + 1;
+    }
+    
+    private int rollTetra()
+    {
+        Random r = new Random();
+        return r.nextInt(4)+1;
+    }
+
+    //Draw the tetrahedral dice using ascii characters
+    private void drawTetra(int v)
+    {
+        System.out.println("    ^ ");            
+        System.out.println("  / "+v+" \\");          
+        System.out.println(" /     \\");
+        System.out.println("/"+v+"     "+v+"\\");
+        System.out.println("---------");                       
     }
 
     public static void clearScreen() {  

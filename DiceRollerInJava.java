@@ -22,46 +22,53 @@ public class DiceRollerInJava {
         Scanner scanner = new Scanner(System.in);
         DiceRollerInJava dice = new DiceRollerInJava();
         int count = 0;
-
-        while(true){
-            System.out.println("What do you want to do ? (type roll to play) (type quit or exit to end the game) ");
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("roll")){
-                System.out.println();
-
-                //Gets type of dice to be rolled from user
-                System.out.println("What type of dice would you like to roll? Terahedral/Regular?");
-                System.out.println("Please insert T or R.");
-                String selection = scanner.nextLine();
-
-                //Rolls tetrahedral (4-sided triangular) dice
-                if(selection.equalsIgnoreCase("T") || selection.equalsIgnoreCase("t"))
-                {
-                    System.out.println("You have selected Tetrahedral!");
-                    int resultTetra = dice.rollTetra();
-                    System.out.println("dice face value: " + resultTetra);
-                    dice.drawTetra(resultTetra);
+        StartMenu();
+        if(Checker()){
+            while(true){
+                System.out.println("What do you want to do ? (type roll to play) (type quit or exit to end the game) ");
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase("roll")){
+                    System.out.println();
+    
+                    //Gets type of dice to be rolled from user
+                    System.out.println("What type of dice would you like to roll? Terahedral/Regular?");
+                    System.out.println("Please insert T or R.");
+                    String selection = scanner.nextLine();
+    
+                    //Rolls tetrahedral (4-sided triangular) dice
+                    if(selection.equalsIgnoreCase("T") || selection.equalsIgnoreCase("t"))
+                    {
+                        System.out.println("You have selected Tetrahedral!");
+                        int resultTetra = dice.rollTetra();
+                        System.out.println("dice face value: " + resultTetra);
+                        dice.drawTetra(resultTetra);
+                        count++;
+                    }
+                    //Rolls regular (6-sided square) dice
+                    else if(selection.equalsIgnoreCase("R") || selection.equalsIgnoreCase("r"))
+                    {
+                    int result = dice.roll();
+                    System.out.println("dice face value:" + result);
+                    dice.draw(result);
                     count++;
+                    }
+    
+                    System.out.println("The dice has rolled " + count + " times");
+                    continue;
+                } else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")){
+                    System.out.println("Bye! see you next time");
+                    scanner.close();
+                    return;
+                } else{
+                    clearScreen();
                 }
-                //Rolls regular (6-sided square) dice
-                else if(selection.equalsIgnoreCase("R") || selection.equalsIgnoreCase("r"))
-                {
-                int result = dice.roll();
-                System.out.println("dice face value:" + result);
-                dice.draw(result);
-                count++;
-                }
-
-                System.out.println("The dice has rolled " + count + " times");
-                continue;
-            } else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")){
-                System.out.println("Bye! see you next time");
-                scanner.close();
-                return;
-            } else{
-                clearScreen();
             }
+        } else {
+            System.out.println("Bye! see you next time");
+            scanner.close();
+            return;
         }
+        
         
     }
 

@@ -1,7 +1,12 @@
 import java.util.Random;
 import java.util.Scanner;
-
 import javax.lang.model.util.ElementScanner6;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;;
  
 // dice roller java source code
 // Also outputs the dice face as ASCII art
@@ -22,6 +27,8 @@ public class DiceRollerInJava {
         Scanner scanner = new Scanner(System.in);
         DiceRollerInJava dice = new DiceRollerInJava();
         int count = 0;
+        int TotalCount = 0;
+
         StartMenu();
         if(Checker()){
             while(true){
@@ -41,25 +48,31 @@ public class DiceRollerInJava {
                         System.out.println("You have selected Tetrahedral!");
                         int resultTetra = dice.rollTetra();
                         System.out.println("dice face value: " + resultTetra);
+                        TotalCount +=resultTetra;
                         dice.drawTetra(resultTetra);
                         count++;
                     }
                     //Rolls regular (6-sided square) dice
                     else if(selection.equalsIgnoreCase("R") || selection.equalsIgnoreCase("r"))
                     {
-                    int result = dice.roll();
-                    System.out.println("dice face value:" + result);
-                    dice.draw(result);
-                    count++;
+                        int result = dice.roll();
+                        System.out.println("dice face value:" + result);
+                        TotalCount += result;
+                        dice.draw(result);
+                        count++;
                     }
-    
+                    
                     System.out.println("The dice has rolled " + count + " times");
+                    System.out.println("Total Dice value " + TotalCount);
+                    // print to txt
+                    printToTxt(TotalCount);
+
                     continue;
-                } else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")){
+                } else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) {
                     System.out.println("Bye! see you next time");
                     scanner.close();
                     return;
-                } else{
+                } else {
                     clearScreen();
                 }
             }
@@ -146,6 +159,16 @@ public class DiceRollerInJava {
         System.out.flush();  
        }
 
-
+    public static void printToTxt(int TotalCount){
+        try {
+            PrintWriter Writer = new PrintWriter("TotalCount.txt");
+            Writer.print(TotalCount);
+            Writer.close();
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+     
+    }
 }
-

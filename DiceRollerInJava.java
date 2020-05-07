@@ -26,26 +26,6 @@ public class DiceRollerInJava {
         int count = 0;
         int TotalCount = 0;
 
-        // while (true) {
-        //     int result = dice.roll();
-        //     System.out.println("dice face value:" + result);
-        //     dice.draw(result);
- 
-        //     System.out.println("Roll again? (type no to quit):");
-        //     String input = scanner.nextLine();
-        //     if (input.equalsIgnoreCase("n") || 
-        //             input.equalsIgnoreCase("no")) {
-        //         System.out.println("Bye!");
-        //         scanner.close();
-        //         return;
-        //     }
-        // }
-
-        // change new logic that only receive the command if the command is roll or quit if other command is type there will be no result
-
-      
-       
-
         while(true){
             System.out.println("What do you want to do ? (type roll to play) (type quit or exit to end the game) ");
             String input = scanner.nextLine();
@@ -59,38 +39,18 @@ public class DiceRollerInJava {
                 System.out.println("The total Count so far is:" + TotalCount);
                 
                 //This try and catch method will grab the value of Total Count and then print it to the designated file
-                try 
-                {
-            
-                    PrintWriter Writer = new PrintWriter("S:/Uni/Development Project 1/DiceRoller Iteration 1/TotalCount.txt");
-                    Writer.print(TotalCount);
-                    Writer.close();
-                   
-                }
-                
-                catch (IOException e) 
-                {
-                    e.printStackTrace();
-                }
-              
+                printToTxt(TotalCount);
                 continue;
-
             }
              else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")){
                 System.out.println("Bye! see you next time");
                 scanner.close();
                 return;
-                
             } 
             else{
-                
                 clearScreen();
             }
-            
         }
-
-
-        
     }
  
     // Draw the dice face using ascii characters
@@ -125,6 +85,16 @@ public class DiceRollerInJava {
         System.out.flush();  
        }
 
-
+    public static void printToTxt(int TotalCount){
+        try {
+            PrintWriter Writer = new PrintWriter("TotalCount.txt");
+            Writer.print(TotalCount);
+            Writer.close();
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
      
+    }
 }

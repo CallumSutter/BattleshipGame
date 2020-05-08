@@ -28,9 +28,11 @@ public class DiceRollerInJava {
         DiceRollerInJava dice = new DiceRollerInJava();
         int count = 0;
         int TotalCount = 0;
+        String name ="";
 
         StartMenu();
         if(Checker()){
+            name = playerName();
             while(true){
                 System.out.println("What do you want to do ? (type roll to play) (type quit or exit to end the game) ");
                 String input = scanner.nextLine();
@@ -65,7 +67,7 @@ public class DiceRollerInJava {
                     System.out.println("The dice has rolled " + count + " times");
                     System.out.println("Total Dice value " + TotalCount);
                     // print to txt
-                    printToTxt(TotalCount);
+                    printToTxt(TotalCount,name);
 
                     continue;
                 } else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) {
@@ -159,9 +161,10 @@ public class DiceRollerInJava {
         System.out.flush();  
        }
 
-    public static void printToTxt(int TotalCount){
+    public static void printToTxt(int TotalCount, String name){
         try {
             PrintWriter Writer = new PrintWriter("TotalCount.txt");
+            Writer.print(name + " :");
             Writer.print(TotalCount);
             Writer.close();
         }
@@ -171,4 +174,13 @@ public class DiceRollerInJava {
         }
      
     }
+
+    public static String playerName(){
+        System.out.println("Please input your name : ");
+        Scanner scanner = new Scanner(System.in);
+        
+        String name = scanner.nextLine();
+        return name;
+    }
+
 }

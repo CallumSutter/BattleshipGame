@@ -15,7 +15,7 @@ public class DiceRollerInJava {
  
     // This has printing information for all numbers
     // For each number,3x3 matrix represents the face
-    int[][][] faceConfig = { { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } }, 
+    static int[][][] faceConfig = { { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } }, 
                            { { 0, 0, 1 }, { 0, 0, 0 }, { 1, 0, 0 } },
                            { { 0, 0, 1 }, { 0, 1, 0 }, { 1, 0, 0 } }, 
                            { { 1, 0, 1 }, { 0, 0, 0 }, { 1, 0, 1 } },
@@ -32,6 +32,7 @@ public class DiceRollerInJava {
 
         StartMenu();
         if(Checker()){
+            String design = design();
             name = playerName();
             while(true){
                 System.out.println("What do you want to do ? (type roll to play) (type quit or exit to end the game) ");
@@ -58,9 +59,10 @@ public class DiceRollerInJava {
                     else if(selection.equalsIgnoreCase("R") || selection.equalsIgnoreCase("r"))
                     {
                         int result = dice.roll();
+                        rollAnimation(design);
                         System.out.println("dice face value:" + result);
                         TotalCount += result;
-                        dice.draw(result);
+                        dice.draw(result, design);
                         count++;
                     }
                     
@@ -68,13 +70,15 @@ public class DiceRollerInJava {
                     System.out.println("Total Dice value " + TotalCount);
                     // print to txt
                     printToTxt(TotalCount,name);
-
                     continue;
                 } else if(input.equalsIgnoreCase("quit") || input.equalsIgnoreCase("exit")) {
                     System.out.println("Bye! see you next time");
                     scanner.close();
                     return;
-                } else {
+                } else if (input.equalsIgnoreCase("design")) {
+                    design = design();
+                }
+                else {
                     clearScreen();
                 }
             }
@@ -88,7 +92,7 @@ public class DiceRollerInJava {
     }
 
     // Draw the dice face using ascii characters
-    private void draw(int value) {
+    private static void draw(int value, String design) {
         int[][] displayVal = faceConfig[value - 1];
         System.out.println("-----");
 
@@ -96,7 +100,7 @@ public class DiceRollerInJava {
             System.out.print("|");
             for (int j = 0; j < 3; j++) {
                 if (displayVal[i][j] == 1) {
-                    System.out.print("o");
+                    System.out.print(design);
                 } else {
                     System.out.print(" ");
                 }
@@ -105,6 +109,23 @@ public class DiceRollerInJava {
         }
         System.out.println("-----");
 
+    }
+    private static String design() {
+        int designLength;
+        String design;
+        Scanner scannerDesign = new Scanner(System.in);
+        do {
+            // checks what character the user would like for their design
+
+            System.out.print("Please select your wanted design: e.g (x, o, *):");
+            design = scannerDesign.nextLine();
+            designLength = design.length();
+            if (designLength != 1) {
+                System.out.println("Please only select one character as your design!");
+            }
+        } while (designLength != 1);
+        
+        return design;
     }
 
     // Roll the dice in Java
@@ -156,6 +177,30 @@ public class DiceRollerInJava {
             return false;
         }
     }
+    // provides animation of the dice rolling
+    private static void rollAnimation(String design) {
+        int count = 0;
+        // pause time between each print is 100ms
+        long sleepTime = 100;
+        DiceRollerInJava  diceAnimation = new DiceRollerInJava();
+
+        while (count < 10) {
+            int result = diceAnimation.roll();
+            draw(result, design);
+            count++;
+            // delay for the next print of the dice animation when rolling
+            try {
+                Thread.sleep(sleepTime);
+            }
+            catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            // clearing the current console output allowing to write over previous dice output
+            // System.out.print("\033[F" + "\033[F" + "\033[F"+ "\033[F" + "\033[F" + "\033[\r");
+            clearScreen();
+        }
+    }
+
     public static void clearScreen() {  
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
